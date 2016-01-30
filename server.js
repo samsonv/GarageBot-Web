@@ -8,6 +8,10 @@ var garageAdress = '';
 var garagePort = '3000';
 var port = process.env.PORT || 1337;
 
+app.get('/', function(req, res){
+    res.send('Hello world!');
+})
+
 app.get('/status', function(req, res){
     res.send('Time since hello: ' + timeSinceLastPhone.from(moment()));
 })
