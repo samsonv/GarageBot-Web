@@ -1,0 +1,17 @@
+{
+  "name": "webopener",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "got": "^6.1.1",
+    "johnny-five": "^0.9.19",
+    "moment": "^2.11.1"
+  }
+}
