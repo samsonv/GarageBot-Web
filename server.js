@@ -6,6 +6,7 @@ var app = express();
 var timeSinceLastPhone = moment();
 var garageAdress = '';
 var garagePort = '3000';
+var port = process.env.PORT || 1337;
 
 app.get('/status', function(req, res){
     res.send('Time since hello: ' + timeSinceLastPhone.from(moment()));
@@ -32,6 +33,6 @@ app.get('/phonehome', function(req, res){
     res.send("ok");
 })
 
-app.listen(80, function () {
-  console.log('Example app listening on port 80!');
+app.listen(port, function () {
+  console.log('Example app listening on port ', port);
 });
