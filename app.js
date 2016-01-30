@@ -32,6 +32,6 @@ app.get('/phonehome', function(req, res){
     res.send("ok");
 })
 
-app.listen(1337, function () {
-  console.log('Example app listening on port 1337!');
+app.listen(80, function () {
+  console.log('Example app listening on port 80!');
 });
