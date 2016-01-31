@@ -1,7 +1,8 @@
-var express = require('express');
+var app = require('express')();
 var moment = require('moment');
 var got = require('got');
-var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 var timeSinceLastPhone = moment();
 var garageAdress = '';
@@ -36,6 +37,13 @@ app.get('/phonehome', function(req, res){
     timeSinceLastPhone = moment();
     res.send("ok");
 })
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
 
 app.listen(port, function () {
   console.log('Example app listening on port ', port);
