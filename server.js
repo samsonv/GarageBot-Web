@@ -4,6 +4,8 @@ var io = require('socket.io')(http);
 var moment = require('moment');
 var got = require('got');
 
+var port = process.env.PORT || 1337;
+
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
@@ -21,6 +23,6 @@ io.on('connection', function(socket){
     })
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+http.listen(port, function(){
+  console.log('listening on *:' + port);
 });
