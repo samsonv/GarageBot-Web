@@ -4,7 +4,7 @@ var io = require('socket.io')(http);
 var moment = require('moment');
 var got = require('got');
 
-var port = process.env.PORT || 1337;
+var port = process.env.PORT || 8080;
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
