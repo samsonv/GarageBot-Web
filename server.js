@@ -9,24 +9,26 @@ var port = process.env.PORT || 8080;
 
 app.use(express.static('wwwroot'));
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/index.html');
 });
 
 
-io.on('connection', function(socket){
+io.on('connection', function (socket) {
     io.emit('web', 'someone connected');
-    
-    socket.on('pi', function(msg){
-        console.log('Pi tells me: ' + msg);
+
+    socket.on('pi', function (msg) {
         io.emit('web', 'Pi says ' + msg);
     });
-    
-    socket.on('web message', function(msg){
+
+    socket.on('web message', function (msg) {
         io.emit('command', msg)
     })
+
+    socket.on('disconnect', function () { });
 });
 
-http.listen(port, function(){
-  console.log('listening on *:' + port);
+
+http.listen(port, function () {
+    console.log('listening on *:' + port);
 });
