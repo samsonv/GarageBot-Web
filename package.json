@@ -16,5 +16,13 @@
     "got": "^6.1.1",
     "moment": "^2.11.1",
     "socket.io": "^1.4.5"
+  },
+  "devDependencies": {
+    "babel-core": "^6.6.5",
+    "babel-loader": "^6.2.4",
+    "babel-preset-react": "^6.5.0",
+    "gulp": "^3.9.1",
+    "webpack": "^1.12.14",
+    "webpack-stream": "^3.1.0"
   }
 }

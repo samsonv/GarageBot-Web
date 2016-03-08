@@ -28,32 +28,13 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd"
     crossorigin="anonymous">
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="/app.js"></script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="header clearfix">
-            <div class="jumbotron">
-                <button class="btn btn-block btn-success btn-lg" style="font-size: 3em;" id=open-button>Åpne!</button>
-            </div>
-        </div>
-        
-        <form action="">
-            <div class="row">
-                <div class="col-sm-10 col-xs-7">
-                    <input class="form-control" id="m" autocomplete="off" />
-                </div>
-                <div class="col-sm-2 col-xs-5">
-                    <button class="btn btn-block btn-primary">Send</button>
-                </div>
-            </div>
-        </form>
-        <hr>
-        <ul class="list-group" id="messages"></ul>
+    <div class="container" id="container">
     </div>
+    
+    <script src="js/main.js"></script>
 </body>
 
 </html>
