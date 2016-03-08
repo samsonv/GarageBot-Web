@@ -7,17 +7,26 @@ var got = require('got');
 
 var port = process.env.PORT || 8080;
 
+var self = this;
+
+this.messages = [];
+
 app.use(express.static('wwwroot'));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/messages', function(req, res){
+    res.send(self.messages);
+})
+
 
 io.on('connection', function (socket) {
     io.emit('web', 'someone connected');
 
     socket.on('pi', function (msg) {
+        saveMessage(msg);
         io.emit('web', 'Pi says ' + msg);
     });
 
@@ -27,6 +36,13 @@ io.on('connection', function (socket) {
 
     socket.on('disconnect', function () { });
 });
+
+function saveMessage(msg){
+    if (self.messages.length > 10){
+        self.messages.pop();
+    }
+    self.messages.push(msg)
+}
 
 
 http.listen(port, function () {

@@ -11,5 +11,5 @@ $('#open-button').click(function () {
 })
 
 socket.on('web', function (msg) {
-    $('#messages').append($('<li class="list-group-item">').text(msg));
+    $('#messages').prepend($('<li class="list-group-item">').text(msg));
 });
