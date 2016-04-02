@@ -1,4 +1,5 @@
 var socket = io();
+
 $('form').submit(function () {
     socket.emit('web message', $('#m').val());
     $('#m').val('');
@@ -8,6 +9,10 @@ $('form').submit(function () {
 $('#open-button').click(function () {
     socket.emit('web message', 'blink');
     return false;
+})
+
+socket.on('distance-message', function(msg){
+    $('#distance').text(msg);
 })
 
 socket.on('web', function (msg) {

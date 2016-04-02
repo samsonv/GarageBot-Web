@@ -30,14 +30,14 @@
     crossorigin="anonymous">
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="/app.js"></script>
 </head>
 
 <body>
     <div class="container">
         <div class="header clearfix">
             <div class="jumbotron">
-                <button class="btn btn-block btn-success btn-lg" style="font-size: 3em;" id=open-button>Åpne!</button>
+                <h2 class="display-1 text-xs-center" id="distance">0</h2>
+                <button class="btn btn-block btn-success btn-lg" style="font-size: 3em;" id="open-button">Åpne!</button>
             </div>
         </div>
         
@@ -54,6 +54,8 @@
         <hr>
         <ul class="list-group" id="messages"></ul>
     </div>
+    
+    <script src="/app.js"></script>
 </body>
 
 </html>

@@ -39,7 +39,7 @@ io.on('connection', function (socket) {
 
 function saveMessage(msg){
     if (self.messages.length > 10){
-        self.messages.pop();
+        self.messages.shift();
     }
     self.messages.push(msg)
 }
