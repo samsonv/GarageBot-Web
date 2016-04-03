@@ -24,7 +24,6 @@ var getMessages = function() {
 }
 
 socket.on('distance', function(msg) {
-    console.log('got distance', msg);
     $('#distance').text(msg);
     $('#progress').val(msg);
 })
