@@ -31,7 +31,8 @@ io.on('connection', function(socket) {
     });
     
     socket.on('distance-message', function(msg) {
-        io.emit('distance', msg);
+        var dist = Math.round(msg)/100;
+        io.emit('distance', dist);
     })
 
     socket.on('web message', function(msg) {
