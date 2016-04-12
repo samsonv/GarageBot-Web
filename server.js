@@ -33,10 +33,12 @@ io.on('connection', function(socket) {
     });
     
     socket.on('distance-message', function(msg) {
-        var dist = Math.round(getAvgDistance())/100;
-        var threshold = 1; //meter
-        
         pushDistance(msg);
+        var threshold = 1; //meter
+        var dist = Math.round(getAvgDistance())/100;
+        if (threshold > Math.abs(dist-(msg/100))){
+            return;
+        }
         var status = dist > 2.5 ? "lukket" :
             dist < 0.2 ? "åpen" : "limbo";
         io.emit('distance', {
