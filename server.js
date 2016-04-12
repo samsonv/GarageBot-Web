@@ -11,6 +11,8 @@ var self = this;
 
 this.messages = [];
 
+this.distances = [];
+
 app.use(express.static('wwwroot'));
 
 app.get('/', function(req, res) {
@@ -31,7 +33,8 @@ io.on('connection', function(socket) {
     });
     
     socket.on('distance-message', function(msg) {
-        var dist = Math.round(msg)/100;
+        pushDistance(msg);
+        var dist = getAvgDistance();
         var status = dist > 2.5 ? "lukket" :
             dist < 0.2 ? "åpen" : "limbo";
         io.emit('distance', {
@@ -46,6 +49,19 @@ io.on('connection', function(socket) {
 
     socket.on('disconnect', function() { });
 });
+
+function getAvgDistance(){
+    return self.distances.reduce(function(previousValue, currentValue, currentIndex, array) {
+        return previousValue + currentValue;
+    })/self.distances.length;
+}
+
+function pushDistance(dist){
+    if (self.distances.length > 10) {
+        self.distances.shift();
+    }
+    self.distances.push(dist);
+}
 
 function saveMessage(msg) {
     if (self.messages.length > 10) {
