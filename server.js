@@ -42,7 +42,7 @@ io.on('connection', function(socket) {
         
         pushDistance(msg);
         var dist = Math.round(getAvgDistance())/100;
-        var status = dist > 2.5 ? "lukket" :
+        var status = dist > 2.2 ? "lukket" :
             dist < 0.2 ? "åpen" : "limbo";
         io.emit('distance', {
             'status': status,
