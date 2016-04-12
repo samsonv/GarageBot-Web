@@ -32,7 +32,12 @@ io.on('connection', function(socket) {
     
     socket.on('distance-message', function(msg) {
         var dist = Math.round(msg)/100;
-        io.emit('distance', dist);
+        var status = dist > 2.5 ? "lukket" :
+            dist < 0.2 ? "åpen" : "limbo";
+        io.emit('distance', {
+            'status': status,
+            'distance': dist
+        });
     })
 
     socket.on('web message', function(msg) {

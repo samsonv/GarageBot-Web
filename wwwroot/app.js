@@ -24,8 +24,11 @@ var getMessages = function() {
 }
 
 socket.on('distance', function(msg) {
-    $('#distance').text(msg);
-    $('#progress').val(msg);
+    $('#status').text(msg.status);
+    $('#status').toggleClass("label-success", msg.status == "lukket");
+    $('#status').toggleClass("label-danger", msg.status == "åpen");
+    $('#status').toggleClass("label-warning", msg.status == "limbo");
+    $('#distance').text(msg.distance);
 })
 
 socket.on('web', getMessages);
