@@ -32,20 +32,23 @@ io.on('connection', function(socket) {
         io.emit('web', 'Pi says ' + msg);
     });
     
+    var lastVal = 0;
     socket.on('distance-message', function(msg) {
-        pushDistance(msg);
-        var threshold = 1; //meter
-        var dist = Math.round(getAvgDistance())/100;
-        if (threshold < Math.abs(dist - (msg/100))){
-            //console.log(dist);
+        var threshold = 2; //meter
+        if (threshold < Math.abs(lastVal - (msg/100))){
+            lastVal = msg/100;
             return;
         }
+        
+        pushDistance(msg);
+        var dist = Math.round(getAvgDistance())/100;
         var status = dist > 2.5 ? "lukket" :
             dist < 0.2 ? "åpen" : "limbo";
         io.emit('distance', {
             'status': status,
             'distance': dist
         });
+        lastVal = dist;
     })
 
     socket.on('web message', function(msg) {
