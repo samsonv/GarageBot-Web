@@ -36,7 +36,8 @@ io.on('connection', function(socket) {
         pushDistance(msg);
         var threshold = 1; //meter
         var dist = Math.round(getAvgDistance())/100;
-        if (threshold > Math.abs(dist-(msg/100))){
+        if (threshold < Math.abs(dist - (msg/100))){
+            //console.log(dist);
             return;
         }
         var status = dist > 2.5 ? "lukket" :
