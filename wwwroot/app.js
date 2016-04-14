@@ -24,10 +24,14 @@ var getMessages = function() {
 }
 
 socket.on('distance', function(msg) {
-    $('#status').text(msg.status);
-    $('#status').toggleClass("label-success", msg.status == "lukket");
-    $('#status').toggleClass("label-danger", msg.status == "åpen");
-    $('#status').toggleClass("label-warning", msg.status == "limbo");
+    var status = msg.status;
+    $('#status').text(status);
+    
+    $('#status').toggleClass("label-success", status == "lukket");
+    $('#status').toggleClass("label-danger", status == "åpen");
+    $('#status').toggleClass("label-warning", status == "limbo");
+    
+    $('#open-button').text(status == 'lukket' ? 'åpne' : status == 'åpen' ? 'lukk' : 'start/stopp');
     $('#distance').text(msg.distance);
 })
 
