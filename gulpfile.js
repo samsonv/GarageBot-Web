@@ -14,4 +14,10 @@ gulp.task('js', function(){
 gulp.task('html', function(){
     return gulp.src('src/index.html')
     .pipe(gulp.dest('wwwroot/'))
-})
+});
+
+gulp.task('watch', function() {
+    gulp.watch(['src/js/**/*.{js,jsx}'], ['js']);
+    gulp.watch(['src/*.html'], ['html']);
+});
+

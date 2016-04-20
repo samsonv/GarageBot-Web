@@ -29,18 +29,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd"
-<<<<<<< HEAD:wwwroot/index.html
-    crossorigin="anonymous">
-</head>
-
-<body>
-    <div class="container" id="container">
-    </div>
-    
-    <script src="js/main.js"></script>
-    <link rel="apple-touch-startup-image" href="/startup.png">
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        crossorigin="anonymous">
 </head>
 
 <body>
@@ -66,10 +55,12 @@
         </form>
         <hr>
         <h5 class="text-xs-center">Siste meldinger fra garasjen:</h5>
-        <ul class="list-group" id="messages"></ul>
+        <div id="message-box">
+            <ul class="list-group" id="messages"></ul>
+        </div>
     </div>
 
-    <script src="/app.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
