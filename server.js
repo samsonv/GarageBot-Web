@@ -11,11 +11,14 @@ var port = process.env.PORT || 8080;
 var version = process.env.VERSION;
 var sendgrid_username = process.env.sendgrid_username;
 var sendgrid_password = process.env.sendgrid_password;
+var mailTo = process.env.send_mail_to;
 var email_enabled = sendgrid_username != "";
 
 var sendgrid = require('sendgrid')(sendgrid_username, sendgrid_password);
+var timer = null;
 
 this.messages = [];
+
 var lastVal = {
     time: moment().format('DD/MM/YYYY HH:mm:ss'),
     distance: 0
@@ -25,7 +28,7 @@ this.distances = [];
 app.use(express.static('wwwroot'));
 
 app.get('/version', function (req, res) {
-    res.send(self.version);
+    res.send(version);
 });
 
 app.get('/', function (req, res) {
@@ -37,7 +40,7 @@ app.get('/messages', function (req, res) {
 })
 
 app.get('/distance', function (req, res) {
-    res.send(self.lastVal);
+    res.send(lastVal);
 })
 
 this.getMessageWithTimeStamp = function(msg){
@@ -56,6 +59,21 @@ io.on('connection', function (socket) {
     });
 
     socket.on('distance-message', function (msg) {
+        if (timer) {
+            console.log('Ok, resetting countdown')
+            clearTimeout(timer); //cancel the previous timer.
+            timer = null;
+        }
+        timer = setTimeout(function(){
+            console.log('O noes!');
+            sendgrid.send({
+                to: mailTo,
+                from: mailTo,
+                subject: 'Failing bot',
+                text: 'Something went wrong ' + moment().format('DD/MM/YYYY HH:mm')
+            });
+        }, 60*1000);
+        
         var threshold = 2; //meter
         var time = moment().format('DD/MM/YYYY HH:mm:ss');
 
