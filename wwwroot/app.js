@@ -26,6 +26,7 @@ var getMessages = function() {
 socket.on('distance', function(msg) {
     var status = msg.status;
     $('#status').text(status);
+    $('#lastUpdatedDistance').text(msg.time);
     
     $('#status').toggleClass("label-success", status == "lukket");
     $('#status').toggleClass("label-danger", status == "åpen");
@@ -35,6 +36,11 @@ socket.on('distance', function(msg) {
     $('#distance').text(msg.distance);
 })
 
-socket.on('web', getMessages);
+socket.on('web', addMessage);
 
 getMessages();
+
+$.get("/distance").done(function(data) {
+    $('#distance').text(data.distance);
+    $('#lastUpdatedDistance').text(data.time);
+});

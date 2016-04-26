@@ -10,7 +10,10 @@ var port = process.env.PORT || 8080;
 var self = this;
 
 this.messages = [];
-
+var lastVal = {
+    time: moment().format('DD/MM/YYYY HH:mm'),
+    distance: 0
+};
 this.distances = [];
 
 app.use(express.static('wwwroot'));
@@ -23,6 +26,9 @@ app.get('/messages', function(req, res) {
     res.send(self.messages);
 })
 
+app.get('/distance', function(req, res){
+    res.send(self.lastVal);
+})
 
 io.on('connection', function(socket) {
     io.emit('web', 'someone connected');
@@ -32,11 +38,12 @@ io.on('connection', function(socket) {
         io.emit('web', 'Pi says ' + msg);
     });
     
-    var lastVal = 0;
     socket.on('distance-message', function(msg) {
         var threshold = 2; //meter
-        if (threshold < Math.abs(lastVal - (msg/100))){
-            lastVal = msg/100;
+        var time = moment().format('DD/MM/YYYY HH:mm');
+        
+        if (threshold < Math.abs(lastVal.distance - (msg/100))){
+            lastVal.distance = msg/100;
             return;
         }
         
@@ -46,9 +53,11 @@ io.on('connection', function(socket) {
             dist < 0.2 ? "åpen" : "limbo";
         io.emit('distance', {
             'status': status,
-            'distance': dist
+            'distance': dist,
+            'time': time
         });
-        lastVal = dist;
+        lastVal.distance = dist;
+        lastVal.time = time
     })
 
     socket.on('web message', function(msg) {
