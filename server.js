@@ -12,7 +12,8 @@ var version = process.env.VERSION;
 var sendgrid_username = process.env.sendgrid_username;
 var sendgrid_password = process.env.sendgrid_password;
 var mailTo = process.env.send_mail_to;
-var email_enabled = sendgrid_username != "";
+
+var mail_after_minutes = mail_after_minutes || 5;
 
 var sendgrid = require('sendgrid')(sendgrid_username, sendgrid_password);
 var timer = null;
@@ -60,7 +61,6 @@ io.on('connection', function (socket) {
 
     socket.on('distance-message', function (msg) {
         if (timer) {
-            console.log('Ok, resetting countdown')
             clearTimeout(timer); //cancel the previous timer.
             timer = null;
         }
@@ -72,7 +72,7 @@ io.on('connection', function (socket) {
                 subject: 'Failing bot',
                 text: 'Something went wrong ' + moment().format('DD/MM/YYYY HH:mm')
             });
-        }, 60*1000);
+        }, mail_after_minutes * 1000 * 60);
         
         var threshold = 2; //meter
         var time = moment().format('DD/MM/YYYY HH:mm:ss');
