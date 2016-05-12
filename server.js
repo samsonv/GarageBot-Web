@@ -108,7 +108,7 @@ io.on('connection', function (socket) {
             });
         } 
         if (command == "bot:") {
-            io.emit('command', msg.split(' ').splice(1));
+            io.emit('command', msg.split(' ').splice(1).join(' '));
         }
         
         io.emit('web', self.getMessageWithTimeStamp(msg));
