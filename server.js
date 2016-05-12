@@ -98,16 +98,20 @@ io.on('connection', function (socket) {
     })
 
     socket.on('web message', function (msg) {
-        if (msg.split(' ')[0] == "mail") {
+        var command = msg.split(' ')[0];
+        if (command == "mail") {
             sendgrid.send({
                 to: msg.split(' ')[1],
                 from: msg.split(' ')[2],
                 subject: 'test mail',
                 text: 'testing..'
             });
-        } else {
-            io.emit('command', msg)
+        } 
+        if (command == "bot:") {
+            io.emit('command', msg.split(' ').splice(1));
         }
+        
+        io.emit('web', self.getMessageWithTimeStamp(msg));
     })
 
     socket.on('disconnect', function () {
