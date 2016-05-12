@@ -44,7 +44,7 @@ app.get('/distance', function (req, res) {
     res.send(lastVal);
 })
 
-this.getMessageWithTimeStamp = function(msg){
+this.getMessageWithTimeStamp = function (msg) {
     return {
         time: moment().format("DD/MM/YYYY HH:mm"),
         message: msg
@@ -52,10 +52,12 @@ this.getMessageWithTimeStamp = function(msg){
 }
 
 io.on('connection', function (socket) {
-    io.emit('web', self.getMessageWithTimeStamp('Noen logget på'));
+    var isGarage = false;
+    io.emit('web', self.getMessageWithTimeStamp('Noen logget på.'));
 
     socket.on('pi', function (msg) {
         saveMessage(msg);
+        isGarage = true;
         io.emit('web', self.getMessageWithTimeStamp(msg));
     });
 
@@ -64,7 +66,7 @@ io.on('connection', function (socket) {
             clearTimeout(timer); //cancel the previous timer.
             timer = null;
         }
-        timer = setTimeout(function(){
+        timer = setTimeout(function () {
             console.log('O noes!');
             sendgrid.send({
                 to: mailTo,
@@ -73,7 +75,7 @@ io.on('connection', function (socket) {
                 text: 'Something went wrong ' + moment().format('DD/MM/YYYY HH:mm')
             });
         }, mail_after_minutes * 1000 * 60);
-        
+
         var threshold = 2; //meter
         var time = moment().format('DD/MM/YYYY HH:mm:ss');
 
@@ -108,7 +110,15 @@ io.on('connection', function (socket) {
         }
     })
 
-    socket.on('disconnect', function () { });
+    socket.on('disconnect', function () {
+        if (isGarage) {
+            var msg = "Garasjen logget av. :("
+            saveMessage(msg);
+            io.emit('web', self.getMessageWithTimeStamp(msg));
+        } else {
+            io.emit('web', self.getMessageWithTimeStamp("Noen logget av."));
+        }
+    });
 });
 
 function getAvgDistance() {
