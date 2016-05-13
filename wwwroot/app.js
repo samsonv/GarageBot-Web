@@ -8,7 +8,7 @@ $('form').submit(function() {
 });
 
 $('#open-button').click(function() {
-    socket.emit('web message', 'blink');
+    socket.emit('web message', 'bot: blink');
     return false;
 })
 
