@@ -22,9 +22,10 @@ this.messages = [];
 
 var lastVal = {
     time: moment().format('DD/MM/YYYY HH:mm:ss'),
-    distance: 0
+    distance: 0,
 };
-this.distances = [];
+
+var lastStatus = "lukket";
 
 app.use(express.static('wwwroot'));
 
@@ -84,10 +85,15 @@ io.on('connection', function (socket) {
             return;
         }
 
-        pushDistance(msg);
-        var dist = Math.round(getAvgDistance()) / 100;
+        var dist = Math.round(msg) / 100;
         var status = dist > 2.2 ? "lukket" :
             dist < 0.2 ? "åpen" : "limbo";
+
+        if (lastStatus != status) {
+            saveMessage('Status changed from ' + lastStatus + ' to ' + status);
+            lastStatus = status;
+        }
+
         io.emit('distance', {
             'status': status,
             'distance': dist,
@@ -106,40 +112,28 @@ io.on('connection', function (socket) {
                 subject: 'test mail',
                 text: 'testing..'
             });
-        } 
+        }
         if (command == "bot:") {
             io.emit('command', msg.split(' ').splice(1).join(' '));
         }
-        
+
         io.emit('web', self.getMessageWithTimeStamp(msg));
     })
 
     socket.on('disconnect', function () {
         if (isGarage) {
             var msg = "Garasjen logget av. :("
-            saveMessage(msg);
-            io.emit('web', self.getMessageWithTimeStamp(msg));
+            saveMessage('Status changed from ' + lastStatusmsg) + ' to ; + status
+;
+lastStatus = status;            io.emit('web', self.getMessageWithTimeStamp(msg));
         } else {
             io.emit('web', self.getMessageWithTimeStamp("Noen logget av."));
         }
     });
 });
 
-function getAvgDistance() {
-    return self.distances.reduce(function (previousValue, currentValue, currentIndex, array) {
-        return previousValue + currentValue;
-    }) / self.distances.length;
-}
-
-function pushDistance(dist) {
-    if (self.distances.length > 10) {
-        self.distances.shift();
-    }
-    self.distances.push(dist);
-}
-
 function saveMessage(msg) {
-    if (self.messages.length > 100) {
+    if (self.messages.length > 1000) {
         self.messages.shift();
     }
     self.messages.push({
