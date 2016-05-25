@@ -139,7 +139,7 @@ function pushDistance(dist) {
 }
 
 function saveMessage(msg) {
-    if (self.messages.length > 10) {
+    if (self.messages.length > 100) {
         self.messages.shift();
     }
     self.messages.push({

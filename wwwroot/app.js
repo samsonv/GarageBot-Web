@@ -12,18 +12,6 @@ $('#open-button').click(function() {
     return false;
 })
 
-var addMessage = function(msg) {
-    $('#messages').prepend($('<li class="list-group-item">')
-        .text(msg.time + ': ' + msg.message));
-}
-
-var getMessages = function() {
-    $('#messages').html("");
-    $.get("/messages").done(function(data) {
-        data.map(addMessage);
-    })
-}
-
 this.setStatusLabel = function(status){
     $('#status').text(status);
     
@@ -40,10 +28,6 @@ socket.on('distance', function(msg) {
     $('#lastUpdatedDistance').text(msg.time);
     $('#distance').text(msg.distance);
 })
-
-socket.on('web', addMessage);
-
-getMessages();
 
 $.get("/distance").done(function(data) {
     var dist = data.distance;
