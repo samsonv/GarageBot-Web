@@ -123,9 +123,8 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         if (isGarage) {
             var msg = "Garasjen logget av. :("
-            saveMessage('Status changed from ' + lastStatusmsg) + ' to ; + status
-;
-lastStatus = status;            io.emit('web', self.getMessageWithTimeStamp(msg));
+            saveMessage('Status changed from ' + lastStatusmsg + ' to ' + status);
+            lastStatus = status; io.emit('web', self.getMessageWithTimeStamp(msg));
         } else {
             io.emit('web', self.getMessageWithTimeStamp("Noen logget av."));
         }
