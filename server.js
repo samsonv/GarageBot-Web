@@ -37,6 +37,10 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/meldinger', function (req, res) {
+    res.sendFile(__dirname + '/messages.html');
+});
+
 app.get('/messages', function (req, res) {
     res.send(self.messages);
 })
