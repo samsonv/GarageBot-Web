@@ -37,22 +37,17 @@
 
 <body>
     <div class="container">
-        <div class="jumbotron text-xs-center m-t-1">
-            <h4>Status: </h4>
-            <h2 class="display-1">
-                    <span id="status" class="label"></span>
-                </h2>
-            <p class="text-muted text-xs-center">
-                <small class="text-muted text-xs-center">Sist oppdatert: <span id="lastUpdatedDistance"></span></small>
-                </br>
-                Avstand: <span id="distance"></span> meter
-            </p>
-            <button class="btn btn-primary btn-lg" style="font-size: 2em;" id="open-button">Åpne!</button>
-        </div>
-        <a href="/meldinger">Meldinger</a>
+        <a href="/">Tilbake</a>
+        <ul class="list-group" id="messageList"></ul>
     </div>
 
-    <script src="/app.js"></script>
+    <script>
+        $.get("/messages").done(function(data) {
+            data.map(function(msg){
+                $('#messageList').append('<li class="list-group-item">' + msg.time + ': ' + msg.message + '</li>');
+            })
+        });
+    </script>
 </body>
 
 </html>
