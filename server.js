@@ -93,7 +93,7 @@ io.on('connection', function (socket) {
         var status = dist > 2.2 ? "lukket" :
             dist < 0.2 ? "åpen" : "limbo";
 
-        if (lastStatus != status) {
+        if (lastStatus != status && status != 'limbo') {
             saveMessage('Status changed from ' + lastStatus + ' to ' + status);
             lastStatus = status;
         }
