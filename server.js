@@ -43,7 +43,7 @@ app.get('/meldinger', function (req, res) {
 });
 
 app.get('/messages', function (req, res) {
-    res.send(self.messages.reverse());
+    res.send(self.messages.slice().reverse());
 })
 
 app.get('/distance', function (req, res) {
@@ -74,7 +74,7 @@ io.on('connection', function (socket) {
         }
         timer = setTimeout(function () {
             console.log('O noes!');
-            self.isOffline = true;
+            self.lastVal.isOffline = true;
             sendgrid.send({
                 to: mailTo,
                 from: mailTo,
