@@ -42,7 +42,7 @@ app.get('/meldinger', function (req, res) {
 });
 
 app.get('/messages', function (req, res) {
-    res.send(self.messages);
+    res.send(self.messages.reverse());
 })
 
 app.get('/distance', function (req, res) {
@@ -126,7 +126,7 @@ io.on('connection', function (socket) {
 
     socket.on('disconnect', function () {
         if (isGarage) {
-            var msg = "Garasjen logget av. :("
+            var msg = "Garasje offline"
             saveMessage(msg);
         }
     });
