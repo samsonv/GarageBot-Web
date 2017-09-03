@@ -20,9 +20,10 @@ var timer = null;
 
 this.messages = [];
 
-var lastVal = {
+this.lastVal = {
     time: moment().format('DD/MM/YYYY HH:mm:ss'),
     distance: 0,
+    isOffline: false
 };
 
 var lastStatus = "lukket";
@@ -46,7 +47,7 @@ app.get('/messages', function (req, res) {
 })
 
 app.get('/distance', function (req, res) {
-    res.send(lastVal);
+    res.send(self.lastVal);
 })
 
 this.getMessageWithTimeStamp = function (msg) {
@@ -73,6 +74,7 @@ io.on('connection', function (socket) {
         }
         timer = setTimeout(function () {
             console.log('O noes!');
+            self.isOffline = true;
             sendgrid.send({
                 to: mailTo,
                 from: mailTo,
@@ -84,8 +86,8 @@ io.on('connection', function (socket) {
         var threshold = 2; //meter
         var time = moment().format('DD/MM/YYYY HH:mm:ss');
 
-        if (threshold < Math.abs(lastVal.distance - (msg / 100))) {
-            lastVal.distance = msg / 100;
+        if (threshold < Math.abs(self.lastVal.distance - (msg / 100))) {
+            self.self.lastVal.distance = msg / 100;
             return;
         }
 
@@ -103,8 +105,9 @@ io.on('connection', function (socket) {
             'distance': dist,
             'time': time
         });
-        lastVal.distance = dist;
-        lastVal.time = time
+        self.lastVal.distance = dist;
+        self.lastVal.time = time;
+        self.lastVal.isOffline = false;
     })
 
     socket.on('web message', function (msg) {

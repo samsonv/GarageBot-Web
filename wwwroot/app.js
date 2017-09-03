@@ -18,7 +18,9 @@ this.setStatusLabel = function(status){
     $('#status').toggleClass("label-success", status == "lukket");
     $('#status').toggleClass("label-danger", status == "åpen");
     $('#status').toggleClass("label-warning", status == "limbo");
+    $('#status').toggleClass("label-default", status == "offline");
     
+    $('#open-button').toggleClass("disabled", status == "offline");
     $('#open-button').text(status == 'lukket' ? 'åpne' : status == 'åpen' ? 'lukk' : 'start/stopp');
 }
 
@@ -33,6 +35,11 @@ $.get("/distance").done(function(data) {
     var dist = data.distance;
     var status = dist > 2.2 ? "lukket" :
             dist < 0.2 ? "åpen" : "limbo";
+            
+    if (data.isOffline){
+        status = "offline";
+    }
+
     self.setStatusLabel(status);
     $('#distance').text(data.distance);
     $('#lastUpdatedDistance').text(data.time);
